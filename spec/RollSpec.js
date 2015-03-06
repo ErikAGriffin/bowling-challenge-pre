@@ -10,7 +10,4 @@ describe("Roll", function() {
     expect(roll.score).toEqual(6);
   });
 
-
-
-
 });
