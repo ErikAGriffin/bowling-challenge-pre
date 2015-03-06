@@ -4,7 +4,6 @@ describe("ScoreCard", function() {
   var diffFrame;
 
   beforeEach(function() {
-
     var frame = {
       score: 0
     }
@@ -17,7 +16,7 @@ describe("ScoreCard", function() {
   });
 
   it("Begins with a score of 0", function() {
-    expect(scorecard.score).toEqual(0);
+    expect(scorecard.getScore()).toEqual(0);
   });
 
   describe("Frames", function() {
@@ -27,13 +26,8 @@ describe("ScoreCard", function() {
 
     it("Will reflect a score change in one of its frames", function() {
       // Simulating a roll of 6 pins followed by a miss
-
-
-      console.log("FINAL TEST");
       diffFrame.score = 6;
-      //expect(diffFrame.score).toEqual(6);
-      //console.log(scorecard.score);
-      expect(scorecard.score).toEqual(6);
+      expect(scorecard.getScore()).toEqual(6);
     });
 
   });
