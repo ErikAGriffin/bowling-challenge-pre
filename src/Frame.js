@@ -10,10 +10,7 @@ function Frame() {
     this.rollCount++;
     this.score += number;
 
-    this.checkFrame();
-
-
-    if (this.rollCount > 1 && !this.isSprike) {
+    if (this.rollCount > 1 && this.score < 10) {
       this.isClosed = true;
     }
     else if (this.rollCount > 2) {
@@ -21,14 +18,6 @@ function Frame() {
     }
 
 
-
-  };
-
-  this.checkFrame = function() {
-
-    if (this.score === 10 && this.rollCount > 0) {
-      this.isSprike = true;
-    }
 
   };
 
