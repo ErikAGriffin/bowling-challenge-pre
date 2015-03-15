@@ -51,6 +51,16 @@ describe("ScoreCard", function() {
       expect(scorecard.getScore()).toEqual(9);
     });
 
+    xit("Will add a third roll to the frame in the event of a spare", function() {
+
+      scorecard.roll(6);
+      scorecard.roll(4);
+      expect(scorecard.getScore()).toEqual(0);
+
+
+
+    });
+
 
   });
 

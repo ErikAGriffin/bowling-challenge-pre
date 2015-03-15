@@ -19,6 +19,15 @@ describe("Bowling Logic", function() {
 
   describe('Bowling', function() {
 
+    xit("A roll can be made", function() {
+
+      game.roll(6);
+
+
+
+
+    });
+
 
 
   });

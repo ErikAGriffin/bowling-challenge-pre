@@ -17,9 +17,36 @@ describe("Frame", function() {
     });
 
     it("Knows how many rolls have been added to it", function() {
-      frame.addScore(4);
-      frame.addScore(2);
+      frame.addScore(6);
+      frame.addScore(3);
       expect(frame.rollCount).toEqual(2);
+    });
+
+    it("Knows that two rolls totaling 9 or less closes the frame", function() {
+      frame.addScore(6);
+      frame.addScore(3);
+      expect(frame.isClosed).toBe(true);
+    });
+
+    it("Knows that a spare allows for an extra roll", function() {
+      frame.addScore(6);
+      frame.addScore(4);
+      expect(frame.isClosed).toBe(false);
+      frame.addScore(6);
+      expect(frame.score).toEqual(16);
+      expect(frame.isClosed).toBe(true);
+    });
+
+    it("Knows that a strike allows for 2 extra rolls", function() {
+
+      frame.addScore(10);
+      frame.addScore(6);
+      expect(frame.isClosed).toBe(false);
+      frame.addScore(3);
+      expect(frame.score).toEqual(19);
+      expect(frame.isClosed).toBe(true);
+
+
     });
 
   });

@@ -6,5 +6,11 @@ function BowlingLogic() {
     this.scoreCards.push(scorecard);
   };
 
+  this.roll = function (pinsHit) {
+
+
+
+  }
+
 
 };
