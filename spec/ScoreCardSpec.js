@@ -1,21 +1,32 @@
 describe("ScoreCard", function() {
 
   var scorecard;
-  var diffFrame;
+  var diffFrameOne;
+  var diffFrameTwo;
 
   beforeEach(function() {
     var frame = {
       score: 0
     }
-    diffFrame = {
+    diffFrameOne = {
       score: 0,
+      rollCount: 0,
       addScore: function (number) {
+        this.rollCount++;
+        this.score += number;
+      }
+    };
+    diffFrameTwo = {
+      score: 0,
+      rollCount: 0,
+      addScore: function(number) {
+        this.rollCount++;
         this.score += number;
       }
 
     };
 
-    var frames = [diffFrame,frame,frame,frame,frame,frame,frame,frame,frame,frame];
+    var frames = [diffFrameOne,diffFrameTwo,frame,frame,frame,frame,frame,frame,frame,frame];
     scorecard = new ScoreCard(frames);
   });
 
@@ -29,10 +40,15 @@ describe("ScoreCard", function() {
     });
 
     it("Will add the score of a roll to the respective frame", function() {
-
       scorecard.roll(6);
-      expect(diffFrame.score).toEqual(6);
+      expect(diffFrameOne.score).toEqual(6);
+    });
 
+    it("Will add two rolls to a frame and close it unless Strike / Spare", function() {
+      scorecard.roll(6);
+      scorecard.roll(3);
+      expect(diffFrameOne.score).toEqual(9);
+      expect(scorecard.getScore()).toEqual(9);
     });
 
 
