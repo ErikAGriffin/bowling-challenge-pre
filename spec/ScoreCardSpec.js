@@ -35,11 +35,6 @@ describe("ScoreCard", function() {
 
     });
 
-    it("Will reflect a score change in one of its frames", function() {
-      // Simulating a roll of 6 pins followed by a miss
-      diffFrame.score = 6;
-      expect(scorecard.getScore()).toEqual(6);
-    });
 
   });
 

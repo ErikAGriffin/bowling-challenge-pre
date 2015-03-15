@@ -5,10 +5,12 @@ function ScoreCard(frames) {
   this.openFrames = frames;
 
   this.getScore = function() {
+    console.log("HEY!");
     var result = 0;
-    for (i=0;i<frames.length;i++) {
-      result += frames[i].score;
+    for (i=0;i<this.frames.length;i++) {
+      result += this.frames[i].score;
     }
+    console.log(result);
     return result;
   };
 
