@@ -16,8 +16,12 @@ function ScoreCard(frames) {
 
     var frame = this.openFrames[0];
     var nextFrame = this.openFrames[1];
+    var thirdFrame = this.openFrames[2];
 
     if (frame.isSprike) {
+      if (nextFrame.isSprike) {
+        thirdFrame.addScore(pinsHit);
+      }
       nextFrame.addScore(pinsHit);
     }
 
