@@ -3,6 +3,8 @@ describe("ScoreCard", function() {
   var scorecard;
   var diffFrameOne;
   var diffFrameTwo;
+  var diffFrameThree;
+  var diffFrameFour;
 
   beforeEach(function() {
     var frame = {
@@ -10,27 +12,41 @@ describe("ScoreCard", function() {
     }
     diffFrameOne = {
       score: 0,
-      rollCount: 0,
       isClosed: false,
       isSprike: false,
       addScore: function (number) {
-        this.rollCount++;
         this.score += number;
       }
     };
     diffFrameTwo = {
       score: 0,
-      rollCount: 0,
       isClosed: false,
       isSprike: false,
       addScore: function(number) {
-        this.rollCount++;
+        this.score += number;
+      }
+
+    };
+    diffFrameThree = {
+      score: 0,
+      isClosed: false,
+      isSprike: false,
+      addScore: function(number) {
+        this.score += number;
+      }
+
+    };
+    diffFrameFour = {
+      score: 0,
+      isClosed: false,
+      isSprike: false,
+      addScore: function(number) {
         this.score += number;
       }
 
     };
 
-    var frames = [diffFrameOne,diffFrameTwo,frame,frame,frame,frame,frame,frame,frame,frame];
+    var frames = [diffFrameOne,diffFrameTwo,diffFrameThree,diffFrameFour,frame,frame,frame,frame,frame,frame];
     scorecard = new ScoreCard(frames);
   });
 
@@ -69,7 +85,6 @@ describe("ScoreCard", function() {
     });
 
     it("Will add a second and third roll in the event of a strike", function() {
-
       scorecard.roll(10);
       spyOn(diffFrameOne,"isSprike").and.returnValue(true);
       scorecard.roll(6);
@@ -79,8 +94,22 @@ describe("ScoreCard", function() {
       expect(diffFrameOne.score).toEqual(19);
       expect(diffFrameTwo.score).toEqual(9);
       expect(scorecard.getScore()).toEqual(28);
+    });
 
-
+    it("Can handle multiple strikes in a row", function() {
+      scorecard.roll(10);
+      spyOn(diffFrameOne, "isSprike").and.returnValue(true);
+      scorecard.roll(10);
+      spyOn(diffFrameTwo, "isSprike").and.returnValue(true);
+      spyOn(diffFrameOne,"isClosed").and.returnValue(true);
+      scorecard.roll(10);
+      spyOn(diffFrameThree, "isSprike").and.returnValue(true);
+      spyOn(diffFrameTwo,"isClosed").and.returnValue(true);
+      scorecard.roll(6);
+      spyOn(diffFrameThree,"isClosed").and.returnValue(true);
+      spyOn(diffFrameFour,"isClosed").and.returnValue(true);
+      scorecard.roll(3);
+      expect(scorecard.getScore()).toEqual(84);
     });
 
 
