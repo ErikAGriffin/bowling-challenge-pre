@@ -5,10 +5,17 @@ describe("ScoreCard", function() {
   var diffFrameTwo;
   var diffFrameThree;
   var diffFrameFour;
+  var diffFrameTen;
+  var frame;
 
   beforeEach(function() {
-    var frame = {
-      score: 0
+    frame = {
+      score: 0,
+      isClosed: false,
+      addScore: function (number) {
+        if (this.isClosed) {return};
+        this.score += number;
+      }
     }
     diffFrameOne = {
       score: 0,
@@ -25,7 +32,6 @@ describe("ScoreCard", function() {
       addScore: function(number) {
         this.score += number;
       }
-
     };
     diffFrameThree = {
       score: 0,
@@ -34,19 +40,25 @@ describe("ScoreCard", function() {
       addScore: function(number) {
         this.score += number;
       }
-
     };
     diffFrameFour = {
+      score: 0,
+      isClosed: false,
+      addScore: function(number) {
+        this.score += number;
+      }
+    };
+    diffFrameTen = {
       score: 0,
       isClosed: false,
       isSprike: false,
       addScore: function(number) {
         this.score += number;
       }
-
     };
 
-    var frames = [diffFrameOne,diffFrameTwo,diffFrameThree,diffFrameFour,frame,frame,frame,frame,frame,frame];
+
+    var frames = [diffFrameOne,diffFrameTwo,diffFrameThree,diffFrameFour,frame,frame,frame,frame,frame,diffFrameTen];
     scorecard = new ScoreCard(frames);
   });
 
@@ -111,6 +123,43 @@ describe("ScoreCard", function() {
       scorecard.roll(3);
       expect(scorecard.getScore()).toEqual(84);
     });
+  });
+
+  describe("End Game", function() {
+
+
+    it("Knows how to handle the Tenth Frame", function(){
+      scorecard.roll(10);
+      spyOn(diffFrameOne, "isSprike").and.returnValue(true);
+      scorecard.roll(10);
+      spyOn(diffFrameTwo, "isSprike").and.returnValue(true);
+      spyOn(diffFrameOne,"isClosed").and.returnValue(true);
+      scorecard.roll(10);
+      spyOn(diffFrameThree, "isSprike").and.returnValue(true);
+      spyOn(diffFrameTwo,"isClosed").and.returnValue(true);
+      scorecard.roll(6);
+      spyOn(diffFrameThree,"isClosed").and.returnValue(true);
+      spyOn(diffFrameFour,"isClosed").and.returnValue(true);
+      scorecard.roll(3);
+      // These subsequent rolls are the double faking being frames
+      // Five through Nine, with a value of 6 in each
+      scorecard.roll(6);
+      spyOn(frame,"isClosed").and.returnValue(true);
+      scorecard.roll(0);
+      scorecard.roll(0);
+      scorecard.roll(0);
+      scorecard.roll(3);
+      scorecard.roll(7);
+      spyOn(diffFrameTen,"isSprike").and.returnValue(true);
+      spyOn(diffFrameTen,"isClosed").and.returnValue(true);
+      scorecard.roll(6);
+      expect(scorecard.getScore()).toEqual(130);
+    });
+
+
+
+
+
 
 
   });
