@@ -11,6 +11,8 @@ describe("ScoreCard", function() {
     diffFrameOne = {
       score: 0,
       rollCount: 0,
+      isClosed: false,
+      isSprike: false,
       addScore: function (number) {
         this.rollCount++;
         this.score += number;
@@ -19,6 +21,8 @@ describe("ScoreCard", function() {
     diffFrameTwo = {
       score: 0,
       rollCount: 0,
+      isClosed: false,
+      isSprike: false,
       addScore: function(number) {
         this.rollCount++;
         this.score += number;
@@ -44,19 +48,37 @@ describe("ScoreCard", function() {
       expect(diffFrameOne.score).toEqual(6);
     });
 
-    it("Will add two rolls to a frame and close it unless Strike / Spare", function() {
+    it("Will add a closed normal frame to its score", function() {
       scorecard.roll(6);
+      // Funny this must go here
+      spyOn(diffFrameOne,"isClosed").and.returnValue(true);
       scorecard.roll(3);
       expect(diffFrameOne.score).toEqual(9);
       expect(scorecard.getScore()).toEqual(9);
     });
 
-    xit("Will add a third roll to the frame in the event of a spare", function() {
-
+    it("Will add a third roll to the frame in the event of a spare", function() {
       scorecard.roll(6);
       scorecard.roll(4);
       expect(scorecard.getScore()).toEqual(0);
+      spyOn(diffFrameOne,"isSprike").and.returnValue(true);
+      spyOn(diffFrameOne,"isClosed").and.returnValue(true);
+      scorecard.roll(6);
+      expect(diffFrameOne.score).toEqual(16);
+      expect(scorecard.getScore()).toEqual(16);
+    });
 
+    it("Will add a second and third roll in the event of a strike", function() {
+
+      scorecard.roll(10);
+      spyOn(diffFrameOne,"isSprike").and.returnValue(true);
+      scorecard.roll(6);
+      spyOn(diffFrameOne,"isClosed").and.returnValue(true);
+      spyOn(diffFrameTwo,"isClosed")
+      scorecard.roll(3);
+      expect(diffFrameOne.score).toEqual(19);
+      expect(diffFrameTwo.score).toEqual(9);
+      expect(scorecard.getScore()).toEqual(28);
 
 
     });

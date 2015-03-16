@@ -31,6 +31,7 @@ describe("Frame", function() {
     it("Knows that a spare allows for an extra roll", function() {
       frame.addScore(6);
       frame.addScore(4);
+      expect(frame.isSprike).toBe(true);
       expect(frame.isClosed).toBe(false);
       frame.addScore(6);
       expect(frame.score).toEqual(16);
@@ -40,6 +41,7 @@ describe("Frame", function() {
     it("Knows that a strike allows for 2 extra rolls", function() {
 
       frame.addScore(10);
+      expect(frame.isSprike).toBe(true);
       frame.addScore(6);
       expect(frame.isClosed).toBe(false);
       frame.addScore(3);

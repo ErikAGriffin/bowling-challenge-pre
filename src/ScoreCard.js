@@ -15,11 +15,21 @@ function ScoreCard(frames) {
   this.roll = function(pinsHit) {
 
     var frame = this.openFrames[0];
+    var nextFrame = this.openFrames[1];
+
+    if (frame.isSprike) {
+      nextFrame.addScore(pinsHit);
+    }
+
     frame.addScore(pinsHit);
 
-    if (frame.rollCount === 2) {
+    if (frame.isClosed) {
       this.frames.push(this.openFrames.shift());
+      if (nextFrame.isClosed) {
+        this.frames.push(this.openFrames.shift());
+      }
     }
+
   };
 
 
